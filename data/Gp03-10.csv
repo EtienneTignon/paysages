@@ -1,0 +1,2 @@
+nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,voisinage,fitness,rugosité,taux_neutre,resultat_min,resultat_moyen,resultat_max,iteration_min,iteration_moyen,iteration_max,freq_optimum_glob,freq_borne_inf
+Gp03-10,3,3,1000,190.885,1,1165,swap,nd,0.00154091,0.7249,1165,1165,1165,1,1.71,3,1,0

@@ -1,0 +1,5 @@
+nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,voisinage,fitness,rugosité,rugosité_sans_neutre,rugosité_sans_plateau,taux_neutre,descente,resultat_min,resultat_moyen,resultat_max,nbr_pas_min,nbr_pas_moyen,nbr_pas_max,freq_optimum_glob,freq_borne_inf
+Gp03-07,3,3,1000,190.315,1,1165,swap,nd,2.15639,nan,nan,0.7275,SHC,1165,1165,1165,1,1.86,3,1,0
+Gp03-07,3,3,1000,190.315,1,1165,swap,nd,2.15639,nan,nan,0.7275,SHC_with_budget,1165,1165,1165,617,648.16,696,1,0
+Gp03-07,3,3,1000,190.315,1,1165,insert,nd,2.65779,nan,nan,0.7726,SHC,1165,1165,1165,1,1.89,3,1,0
+Gp03-07,3,3,1000,190.315,1,1165,insert,nd,2.65779,nan,nan,0.7726,SHC_with_budget,1165,1165,1165,645,687.04,730,1,0

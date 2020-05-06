@@ -1,0 +1,1 @@
+nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,voisinage,fitness,rugosité,rugosité_sans_neutre,rugosité_sans_plateau,taux_neutre,descente,resultat_min,resultat_moyen,resultat_max,nbr_pas_min,nbr_pas_moyen,nbr_pas_max,freq_optimum_glob,freq_borne_inf

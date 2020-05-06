@@ -1,0 +1,13 @@
+# ReadMe
+
+Voici l'ensemble des données que j'ai réalisé à ce jours
+
+J'y ai inclu :
+* Les 5 instances que j'ai étudié
+* Un fichier csv contenant :
+ * Les features des instances
+ * Les features des paysages
+ * Les features observés suite à plusieurs déscentes (pour l'instant réalisé sur 100 déscentes)
+* Une observation des paysages généré à partir de l'instance Gp03-01 et des trois moteurs du papier
+ * Une fois la liste des fitness générable et leur reppartition
+ * Une fois la liste des ordonancement générable et leur répartition
