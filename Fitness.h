@@ -18,6 +18,7 @@ private:
 public:
     Solution calcul_solution(Instance inst, string methode);
     vector<pair<int, int>> calcul_chemin_critique(Solution s, Instance inst);
+    
 };
 
 #endif // FITNESS_H_INCLUDED

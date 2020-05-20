@@ -83,7 +83,7 @@ Solution Fitness::nd_engine(Instance inst)
     }
 
     Solution s = Solution(sol);
-    s.set_chemin_critique(this->calcul_chemin_critique(s,inst));
+    s.set_chemin_critique(this->calcul_chemin_critique(s, inst));
     return s;
 }
 
@@ -130,7 +130,7 @@ Solution Fitness::fast_engine(Instance inst)
     }
 
     Solution s = Solution(sol);
-    s.set_chemin_critique(this->calcul_chemin_critique(s,inst));
+    s.set_chemin_critique(this->calcul_chemin_critique(s, inst));
     return s;
 }
 
@@ -197,7 +197,7 @@ Solution Fitness::giffler_engine(Instance inst)
     }
 
     Solution s = Solution(sol);
-    s.set_chemin_critique(this->calcul_chemin_critique(s,inst));
+    s.set_chemin_critique(this->calcul_chemin_critique(s, inst));
     return s;
 }
 
@@ -309,7 +309,7 @@ Solution Fitness::fifo_engine(Instance inst)
     }
 
     Solution s = Solution(sol);
-    s.set_chemin_critique(this->calcul_chemin_critique(s,inst));
+    s.set_chemin_critique(this->calcul_chemin_critique(s, inst));
     return s;
 }
 
@@ -411,14 +411,14 @@ vector<pair<int, int>> Fitness::calcul_chemin_critique(Solution s, Instance inst
     int t = s.get_temps_total();
     while (t > 0)
     {
-        int i=0;
+        int i = 0;
         bool flag = false;
-        while(!flag)
+        while (!flag)
         {
-            if(s.get_temps()[i].second == t)
+            if (s.get_temps()[i].second == t)
             {
                 flag = true;
-                pair<int,int> task = s.get_temps()[i].first;
+                pair<int, int> task = s.get_temps()[i].first;
                 Chemin_critique.push_back(task);
                 t -= inst.get_time(task.first, task.second);
             }

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include "Solution.h"
+#include "Instance.h"
 
 using namespace std;
 

@@ -42,6 +42,7 @@ public:
     bool is_lower_bound(int result);
     void set_permutation(vector<pair<int, int>> perm);
     string get_nom();
+    void recreer_instance_depuis_solution(Solution s);
 };
 
 #endif // INSTANCE_H_INCLUDED

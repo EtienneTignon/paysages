@@ -144,11 +144,22 @@ feature_amalgams Retenir_paquet_de_run(Instance inst, string voisinage, string f
         for (int i = 0; i < taille_paquet; i++)
             runs.push_back(Calc_feature::Hill_climbing_with_neutral(inst, fitness, voisinage, budget, (voisinage.find("crit") != std::string::npos)));
     }
-    else if(descente == "SHC")
+    else if (descente == "SHC")
     {
         for (int i = 0; i < taille_paquet; i++)
             runs.push_back(Calc_feature::Hill_climbing(inst, fitness, voisinage, (voisinage.find("crit") != std::string::npos)));
     }
+    else if (descente == "SHC_with_budget+best")
+    {
+        int budget = inst.get_nbr_machine() * inst.get_nbr_job() * 100;
+        for (int i = 0; i < taille_paquet; i++)
+            runs.push_back(Calc_feature::Hill_climbing_with_neutral_and_best(inst, fitness, voisinage, budget, (voisinage.find("crit") != std::string::npos)));
+    }
+    else if (descente == "SHC+best")
+    {
+        for (int i = 0; i < taille_paquet; i++)
+            runs.push_back(Calc_feature::Hill_climbing_and_best(inst, fitness, voisinage, (voisinage.find("crit") != std::string::npos)));
+    }       
     else
     {
         cout << "ERREUR : MAUVAISE DESCENTE" << endl;
@@ -307,10 +318,34 @@ int main(int argc, char *argv[])
         instances.push_back(inst_10_1);
     }
 
+    /*
+
+    for (unsigned int i = 0; i < instances.size(); i++)
+    {
+            cout << i << endl;
+        string filename = "corr_fit_" + instances[i].get_nom() + ".csv";
+        ofstream fichier(filename);
+        fichier << "ND,Giffler,FIFO,Perles";
+
+        Fitness f;
+
+        for (int j=0; j<(instances[i].get_nbr_job()*instances[i].get_nbr_job()*instances[i].get_nbr_job()*100); j++)
+        {
+            fichier << endl;
+            instances[i].initialisation_permutation();
+            fichier << f.calcul_solution(instances[i],"nd").get_temps_total() << ",";
+            fichier << f.calcul_solution(instances[i],"giffler").get_temps_total() << ",";
+            fichier << f.calcul_solution(instances[i],"FIFO-simple").get_temps_total() << ",";
+            fichier << f.calcul_solution(instances[i],"FIFO-critique").get_temps_total();
+        }
+    }
+
+    */
+
     //Création du fichier
     ofstream fichier(filepath);
     fichier << "nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,";
-    fichier << "voisinage,fitness,rugosité,rugosité_sans_neutre,rugosité_sans_plateau,taux_neutre,";
+    fichier << "voisinage,fitness,autocorrélation,ac_sans_neutre,ac_sans_plateau,taux_neutre,";
     fichier << "descente,";
     fichier << "resultat_min,resultat_moyen,resultat_max,";
     fichier << "nbr_pas_min,nbr_pas_moyen,nbr_pas_max,";
@@ -318,10 +353,11 @@ int main(int argc, char *argv[])
     fichier.close();
 
     //Initialisation des fitness et voisinage exploitable
-    vector<string> voisinages = {"swap_critic", "insert_critic", "swap+insert_critic"};
+    //vector<string> voisinages = {"swap","insert","swap+insert","swap_critic", "insert_critic", "swap+insert_critic"};
+    vector<string> voisinages = {"swap","swap_jump","insert","insert_jump","swap+insert","swap+insert_jump"};
     //vector<string> fitnesses = {"nd", "fast", "giffler", "FIFO-simple", "best"};
-    //vector<string> fitnesses = {"nd", "giffler", "FIFO-simple", "FIFO-critique", "best"};
-    vector<string> fitnesses = {"FIFO-simple"};
+    vector<string> fitnesses = {"nd", "giffler", "FIFO-simple", "FIFO-critique"};
+    //vector<string> fitnesses = {"FIFO-simple"};
 
     //Features et enrengistrement des landscapes
     for (unsigned int inst = 0; inst < instances.size(); inst++)
@@ -334,16 +370,20 @@ int main(int argc, char *argv[])
             {
                 cout << " | Fitness : " << fitnesses[fit] << " / Voisinage : " << voisinages[vois] << endl;
                 feature_landscape fl = Retenir_paysage(instances[inst], voisinages[vois], fitnesses[fit]);
+                //feature_amalgams fa1 = Retenir_paquet_de_run(instances[inst], voisinages[vois], fitnesses[fit], "SHC+best");
                 feature_amalgams fa1 = Retenir_paquet_de_run(instances[inst], voisinages[vois], fitnesses[fit], "SHC");
                 //feature_amalgams fa1;
                 Enrengistrer_feature(fi, fl, fa1, filepath);
+                //feature_amalgams fa2 = Retenir_paquet_de_run(instances[inst], voisinages[vois], fitnesses[fit], "SHC_with_budget+best");
                 feature_amalgams fa2 = Retenir_paquet_de_run(instances[inst], voisinages[vois], fitnesses[fit], "SHC_with_budget");
                 Enrengistrer_feature(fi, fl, fa2, filepath);
+                /*
                 vector<pair<int,float>> courbe = Calc_feature::courbe_de_rugosite(instances[inst],voisinages[vois],fitnesses[fit],"simple");
                 ofstream fc("CourbeCorrelation/courbe_" + instances[inst].get_nom() + voisinages[vois] + fitnesses[fit] + ".csv");
                 for (unsigned int lg = 0; lg < courbe.size(); lg++)
                     fc << courbe[lg].first << "," << courbe[lg].second << endl;
                 fc.close();
+                */
             }
         }
     }

@@ -224,3 +224,43 @@ string Instance::get_nom()
 {
     return this->nom;
 }
+
+void Instance::recreer_instance_depuis_solution(Solution s)
+{
+    auto run = s.get_temps();
+    vector<pair<int, int>> new_permutation = {};
+    while (run.size() > 0)
+    {
+        int tmin = run[0].second;
+        pair<int, int> tache = run[0].first;
+        int tache_index = 0;
+        int ptp = 0;
+        for (unsigned int i = 0; i < run.size(); i++)
+        {
+            int start_time = run[i].second - (this->get_time(run[i].first.first, run[i].first.second));
+            if (start_time < tmin)
+            {
+                tmin = start_time;
+                tache = run[i].first;
+                tache_index = i;
+            }
+            else if (start_time == tmin)
+            {
+                if (run[i].first.first < tache.first)
+                {
+                    tache = run[i].first;
+                    tache_index = i;
+                }
+                else if ((run[i].first.first == tache.first) && (run[i].first.second < tache.second))
+                {
+                    tache = run[i].first;
+                    tache_index = i;
+                }
+            };
+        }
+
+        new_permutation.push_back(tache);
+        run.erase(run.begin() + tache_index);
+    }
+    this->set_permutation(new_permutation);
+}
