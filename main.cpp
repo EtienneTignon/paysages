@@ -353,8 +353,8 @@ int main(int argc, char *argv[])
     fichier.close();
 
     //Initialisation des fitness et voisinage exploitable
-    //vector<string> voisinages = {"swap","insert","swap+insert","swap_critic", "insert_critic", "swap+insert_critic"};
-    vector<string> voisinages = {"swap","swap_jump","insert","insert_jump","swap+insert","swap+insert_jump"};
+    //vector<string> voisinages = {"swap","insert","swap+insert","swap_critic", "insert_critic", "swap+insert_critic","swap_jump","insert_jump","swap+insert_jump"};
+    vector<string> voisinages = {"swap","swap_nrd","swap_jump","swap_jump_nrd"};
     //vector<string> fitnesses = {"nd", "fast", "giffler", "FIFO-simple", "best"};
     vector<string> fitnesses = {"nd", "giffler", "FIFO-simple", "FIFO-critique"};
     //vector<string> fitnesses = {"FIFO-simple"};

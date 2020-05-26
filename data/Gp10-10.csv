@@ -1,1 +1,10 @@
-nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,voisinage,fitness,rugosité,taux_neutre,resultat_min,resultat_moyen,resultat_max,iteration_min,iteration_moyen,iteration_max,freq_optimum_glob,freq_borne_inf
+nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,voisinage,fitness,rugosité,rugosité_sans_neutre,rugosité_sans_plateau,taux_neutre,descente,resultat_min,resultat_moyen,resultat_max,nbr_pas_min,nbr_pas_moyen,nbr_pas_max,freq_optimum_glob,freq_borne_inf
+Gp10-10,10,10,1000,163.503,1,1092,swap,nd,4.94524,0.751375,0.573839,0.7497,SHC,1099,1147.66,1185,3,9.63,20,0,0
+Gp10-10,10,10,1000,163.503,1,1092,swap,nd,4.94524,0.751375,0.573839,0.7497,SHC_with_budget,1099,1118.08,1165,7372,15109.2,33588,0,0
+Gp10-10,10,10,1000,163.503,1,1092,insert,nd,9.35518,0.720729,0.620273,0.8266,SHC,1100,1163.31,1228,2,8.1,20,0,0
+Gp10-10,10,10,1000,163.503,1,1092,insert,nd,9.35518,0.720729,0.620273,0.8266,SHC_with_budget,1099,1120.67,1168,8727,17852.2,39334,0,0
+Gp10-10,10,10,1000,163.503,1,1092,swap+insert,nd,5.15112,0.700122,0.686751,0.8097,SHC,1099,1146.86,1190,2,9.83,22,0,0
+Gp10-10,10,10,1000,163.503,1,1092,swap+insert,nd,5.15112,0.700122,0.686751,0.8097,SHC_with_budget,1099,1118.03,1167,8347,15275.1,36456,0,0
+Gp10-10,10,10,1000,163.503,1,1092,swap_critic,nd,4.06332,0.697701,0.692511,0.7499,SHC,1099,1163.53,1223,1,7.95,16,0,0
+Gp10-10,10,10,1000,163.503,1,1092,swap_critic,nd,4.06332,0.697701,0.692511,0.7499,SHC_with_budget,1099,1112.34,1173,5329,11958.8,25583,0,0
+Gp10-10,10,10,1000,163.503,1,1092,insert_critic,nd,9.20852,0.963288,0.708802,0.8393,SHC,1128,1200.21,1290,1,4.79,11,0,0

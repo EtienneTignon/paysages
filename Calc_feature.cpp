@@ -17,10 +17,14 @@ vector<int> Calc_feature::Random_walk(Instance inst, string fitness, string vois
     inst.initialisation_permutation();
     vector<int> resultat = {};
     Fitness fit;
-    resultat.push_back(fit.calcul_solution(inst, fitness).get_temps_total());
+    Solution s = fit.calcul_solution(inst, fitness);
+    resultat.push_back(s.get_temps_total());
     for (int iter = 1; iter <= nbr_iteration; iter++)
     {
-        Voisinage voi(voisinage, inst);
+        if (voisinage.find("jump") != std::string::npos)
+            inst.recreer_instance_depuis_solution(s);
+        bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+        Voisinage voi(voisinage, inst, not_redundant);
         inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
         resultat.push_back(fit.calcul_solution(inst, fitness).get_temps_total());
     }
@@ -32,21 +36,27 @@ vector<int> Calc_feature::Random_walk_without_neutral_neighbour(Instance inst, s
     inst.initialisation_permutation();
     vector<int> resultat = {};
     Fitness fit;
-    int old_value = fit.calcul_solution(inst, fitness).get_temps_total();
-    int new_value = fit.calcul_solution(inst, fitness).get_temps_total();
+    Solution s = fit.calcul_solution(inst, fitness);
+    int old_value = s.get_temps_total();
+    int new_value = s.get_temps_total();
     resultat.push_back(old_value);
     for (int iter = 1; iter <= nbr_iteration; iter++)
     {
-        Voisinage voi(voisinage, inst);
+        if (voisinage.find("jump") != std::string::npos)
+            inst.recreer_instance_depuis_solution(s);
+        bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+        Voisinage voi(voisinage, inst, not_redundant);
         while (old_value == new_value)
         {
             auto old_perm = inst.get_permutation();
             auto new_perm = voi.Creer_voisin(old_perm);
             inst.set_permutation(new_perm);
-            new_value = fit.calcul_solution(inst, fitness).get_temps_total();
+            Solution ns = fit.calcul_solution(inst, fitness);
+            new_value = ns.get_temps_total();
             if (old_value == new_value)
             {
                 inst.set_permutation(old_perm);
+                s = ns;
             }
         }
         resultat.push_back(new_value);
@@ -60,12 +70,17 @@ vector<int> Calc_feature::Random_walk_with_neutral_shortcut(Instance inst, strin
     inst.initialisation_permutation();
     vector<int> resultat = {};
     Fitness fit;
-    resultat.push_back(fit.calcul_solution(inst, fitness).get_temps_total());
+    Solution s = fit.calcul_solution(inst, fitness);
+    resultat.push_back(s.get_temps_total());
     for (int iter = 1; iter <= nbr_iteration; iter++)
     {
-        Voisinage voi(voisinage, inst);
+        if (voisinage.find("jump") != std::string::npos)
+            inst.recreer_instance_depuis_solution(s);
+        bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+        Voisinage voi(voisinage, inst, not_redundant);
         inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
-        int res = fit.calcul_solution(inst, fitness).get_temps_total();
+        s = fit.calcul_solution(inst, fitness);
+        int res = s.get_temps_total();
         if (res != resultat[resultat.size() - 1])
             resultat.push_back(res);
         else
@@ -94,7 +109,8 @@ Solution Calc_feature::Hill_climbing(Instance inst, string fitness, string voisi
             if (voisinage.find("jump") != std::string::npos)
                 inst.recreer_instance_depuis_solution(s);
             //Randomisation de la liste des voisins.
-            Voisinage voi(voisinage, inst);
+            bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+            Voisinage voi(voisinage, inst, not_redundant);
             voi.Reinitialiser_voisin();
             bool meilleur_voisin_trouve = false;
             vector<pair<int, int>> save = inst.get_permutation();
@@ -183,7 +199,8 @@ Solution Calc_feature::Hill_climbing_with_neutral(Instance inst, string fitness,
             if (voisinage.find("jump") != std::string::npos)
                 inst.recreer_instance_depuis_solution(s);
             //Randomisation de la liste des voisins.
-            Voisinage voi(voisinage, inst);
+            bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+            Voisinage voi(voisinage, inst, not_redundant);
             voi.Reinitialiser_voisin();
             bool meilleur_voisin_trouve = false;
             vector<pair<int, int>> save = inst.get_permutation();
@@ -256,6 +273,7 @@ Solution Calc_feature::Hill_climbing_with_neutral(Instance inst, string fitness,
     s.set_run(parcours);
     return s;
 }
+
 Solution Calc_feature::Hill_climbing_and_best(Instance inst, string fitness, string voisinage, bool critic)
 {
     //Initialisation de la liste des voisins et autres variables de la recherche local
@@ -276,7 +294,8 @@ Solution Calc_feature::Hill_climbing_and_best(Instance inst, string fitness, str
             if (voisinage.find("jump") != std::string::npos)
                 inst.recreer_instance_depuis_solution(s);
             //Randomisation de la liste des voisins.
-            Voisinage voi(voisinage, inst);
+            bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+            Voisinage voi(voisinage, inst, not_redundant);
             voi.Reinitialiser_voisin();
             bool meilleur_voisin_trouve = false;
             vector<pair<int, int>> save = inst.get_permutation();
@@ -366,7 +385,8 @@ Solution Calc_feature::Hill_climbing_with_neutral_and_best(Instance inst, string
             if (voisinage.find("jump") != std::string::npos)
                 inst.recreer_instance_depuis_solution(s);
             //Randomisation de la liste des voisins.
-            Voisinage voi(voisinage, inst);
+            bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+            Voisinage voi(voisinage, inst, not_redundant);
             voi.Reinitialiser_voisin();
             bool meilleur_voisin_trouve = false;
             vector<pair<int, int>> save = inst.get_permutation();

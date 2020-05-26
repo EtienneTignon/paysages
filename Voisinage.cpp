@@ -52,14 +52,14 @@ Voisinage::Voisinage(string voisinage, Instance inst, Solution s)
                 bool j_est_critique = s.est_dans_chemin_critique(inst.get_permutation()[j]);
                 if (i_est_critique && j_est_critique)
                     this->permutation_swap.push_back({i, j});
-                else if(i_est_critique || j_est_critique)
+                else if (i_est_critique || j_est_critique)
                 {
-                    int k = i+1;
+                    int k = i + 1;
                     bool k_est_critique = false;
-                    while(k<j && !k_est_critique)
+                    while (k < j && !k_est_critique)
                     {
                         k_est_critique = s.est_dans_chemin_critique(inst.get_permutation()[k]);
-                        if(k_est_critique)
+                        if (k_est_critique)
                         {
                             this->permutation_swap.push_back({i, j});
                         }
@@ -67,7 +67,6 @@ Voisinage::Voisinage(string voisinage, Instance inst, Solution s)
                         {
                             k++;
                         }
-                        
                     }
                 }
             }
@@ -84,16 +83,16 @@ Voisinage::Voisinage(string voisinage, Instance inst, Solution s)
                 {
                     bool accepter = false;
                     bool flag = false;
-                    int a = min(i,j);
+                    int a = min(i, j);
                     while (!flag)
                     {
-                        if(a != i)
+                        if (a != i)
                         {
-                            if(a > max(i,j))
+                            if (a > max(i, j))
                             {
                                 flag = true;
                             }
-                            else if((s.est_dans_chemin_critique(inst.get_permutation()[i]) && s.est_dans_chemin_critique(inst.get_permutation()[a])))
+                            else if ((s.est_dans_chemin_critique(inst.get_permutation()[i]) && s.est_dans_chemin_critique(inst.get_permutation()[a])))
                             {
                                 flag = true;
                                 accepter = true;
@@ -101,13 +100,74 @@ Voisinage::Voisinage(string voisinage, Instance inst, Solution s)
                         }
                         a++;
                     }
-                    if(accepter)
+                    if (accepter)
                         this->permutation_trans.push_back({i, j});
                 }
             }
         }
     }
     this->Reinitialiser_voisin();
+}
+
+Voisinage::Voisinage(string voisinage, Instance inst, bool garantir_change)
+{
+    if (!garantir_change)
+    {
+        this->voisinage_choisi = voisinage;
+        if (voisinage.find("swap") != std::string::npos)
+        {
+            unsigned int nbr_voisin = inst.get_permutation().size();
+            for (unsigned int i = 0; i < nbr_voisin - 1; i++)
+            {
+                for (unsigned int j = i + 1; j < nbr_voisin; j++)
+                {
+                    this->permutation_swap.push_back({i, j});
+                }
+            }
+        }
+        if (voisinage.find("insert") != std::string::npos)
+        {
+            unsigned int nbr_voisin = inst.get_permutation().size();
+            for (unsigned int i = 0; i < nbr_voisin; i++)
+            {
+                for (unsigned int j = 0; j < nbr_voisin; j++)
+                {
+                    if (i != j)
+                        this->permutation_trans.push_back({i, j});
+                }
+            }
+        }
+        this->Reinitialiser_voisin();
+    }
+    else
+    {
+        this->voisinage_choisi = voisinage;
+        if (voisinage.find("swap") != std::string::npos)
+        {
+            unsigned int nbr_voisin = inst.get_permutation().size();
+            for (unsigned int i = 0; i < nbr_voisin - 1; i++)
+            {
+                for (unsigned int j = i + 1; j < nbr_voisin; j++)
+                {
+                    if (this->changement(i, j, inst))
+                        this->permutation_swap.push_back({i, j});
+                }
+            }
+        }
+        if (voisinage.find("insert") != std::string::npos)
+        {
+            unsigned int nbr_voisin = inst.get_permutation().size();
+            for (unsigned int i = 0; i < nbr_voisin; i++)
+            {
+                for (unsigned int j = 0; j < nbr_voisin; j++)
+                {
+                    if (i != j && this->changement_insert(i, j, inst))
+                        this->permutation_trans.push_back({i, j});
+                }
+            }
+        }
+        this->Reinitialiser_voisin();
+    }
 }
 
 vector<pair<int, int>> Voisinage::swap(vector<pair<int, int>> permutation)
@@ -203,4 +263,63 @@ void Voisinage::Reinitialiser_voisin()
     shuffle(begin(this->permutation_trans), end(this->permutation_trans), g);
     this->prochain_voisin_swap = 0;
     this->prochain_voisin_trans = 0;
+}
+
+bool Voisinage::changement(int a, int b, Instance inst)
+{
+    int i;
+    int j;
+    if (a < b)
+    {
+        i = a;
+        j = b;
+    }
+    else
+    {
+        i = b;
+        j = a;
+    }
+
+    if (inst.get_permutation()[i].first == inst.get_permutation()[j].first)
+        return (true);
+    if (inst.get_permutation()[i].second == inst.get_permutation()[j].second)
+        return (true);
+
+    if (j - i != 1)
+    {
+        for (int k = i + 1; k < j; k++)
+        {
+            if (inst.get_permutation()[i].first == inst.get_permutation()[k].first)
+                return (true);
+            if (inst.get_permutation()[i].second == inst.get_permutation()[k].second)
+                return (true);
+            if (inst.get_permutation()[k].first == inst.get_permutation()[j].first)
+                return (true);
+            if (inst.get_permutation()[k].second == inst.get_permutation()[j].second)
+                return (true);
+        }
+    }
+
+    return (false);
+}
+
+bool Voisinage::changement_insert(int a, int b, Instance inst)
+{
+    if (a < b)
+    {
+        for (int x = a + 1; x <= b; x++)
+        {
+            if (this->changement(a, x, inst))
+                return (true);
+        }
+    }
+    else
+    {
+        for (int x = a - 1; x >= b; x--)
+        {
+            if (this->changement(a, x, inst))
+                return (true);
+        }
+    }
+    return (false);
 }
