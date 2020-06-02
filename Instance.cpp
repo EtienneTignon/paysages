@@ -234,7 +234,6 @@ void Instance::recreer_instance_depuis_solution(Solution s)
         int tmin = run[0].second;
         pair<int, int> tache = run[0].first;
         int tache_index = 0;
-        int ptp = 0;
         for (unsigned int i = 0; i < run.size(); i++)
         {
             int start_time = run[i].second - (this->get_time(run[i].first.first, run[i].first.second));

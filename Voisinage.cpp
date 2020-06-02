@@ -220,7 +220,6 @@ vector<pair<int, int>> Voisinage::Creer_voisin(vector<pair<int, int>> permutatio
     }
     if (this->voisinage_choisi.find("insert") != std::string::npos)
     {
-
         nbr_voisin_trans = this->permutation_trans.size() - this->prochain_voisin_trans;
         nbr_voisin += nbr_voisin_trans;
     }

@@ -220,6 +220,7 @@ void Enrengistrer_feature(feature_instance fi, feature_landscape fl, feature_ama
 // Main()
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
     //Initialisation du fichier dans lequel écrire.
     string filepath = "data/test.csv";
 
