@@ -461,6 +461,96 @@ Solution Calc_feature::Hill_climbing_with_neutral_and_best(Instance inst, string
     return s;
 }
 
+Solution Calc_feature::Hill_climbing_with_budget(Instance inst, string fitness, string voisinage, int budget, bool critic)
+{
+    //Initialisation de la liste des voisins et autres variables de la recherche local
+    //cout << "Nouvelle descente" << endl;
+    inst.initialisation_permutation();
+    vector<int> parcours = {};
+    bool termine = false;
+    random_device rd;
+    //Calcul du fitness initial
+    Fitness fit;
+    Solution s = fit.calcul_solution(inst, fitness);
+    Solution s2 = s;
+    parcours.push_back(s.get_temps_total());
+    int budget_perdu = 0;
+    if (!critic)
+    {
+        while (!termine)
+        {
+            if (voisinage.find("jump") != std::string::npos)
+                inst.recreer_instance_depuis_solution(s);
+            //Randomisation de la liste des voisins.
+            bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+            Voisinage voi(voisinage, inst, not_redundant);
+            voi.Reinitialiser_voisin();
+            bool meilleur_voisin_trouve = false;
+            vector<pair<int, int>> save = inst.get_permutation();
+            //Parcours des voisins
+            while (!meilleur_voisin_trouve && !voi.Voisinage_parcouru())
+            {
+                inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
+                s2 = fit.calcul_solution(inst, fitness);
+                if (s2.get_temps_total() <= s.get_temps_total())
+                {
+                    meilleur_voisin_trouve = true;
+                    budget_perdu++;
+                    s = s2;
+                    parcours.push_back(s.get_temps_total());
+                }
+                else
+                {
+                    inst.set_permutation(save);
+                    budget_perdu++;
+                }
+            }
+            if (!meilleur_voisin_trouve || budget_perdu >= budget)
+            {
+                termine = true;
+            }
+        }
+    }
+    else
+    {
+        while (!termine)
+        {
+            if (voisinage.find("jump") != std::string::npos)
+                inst.recreer_instance_depuis_solution(s);
+            //Randomisation de la liste des voisins.
+            Voisinage voi(voisinage, inst, s);
+            voi.Reinitialiser_voisin();
+            bool meilleur_voisin_trouve = false;
+            vector<pair<int, int>> save = inst.get_permutation();
+            //Parcours des voisins
+            while (!meilleur_voisin_trouve && !voi.Voisinage_parcouru())
+            {
+                inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
+                s2 = fit.calcul_solution(inst, fitness);
+                if (s2.get_temps_total() <= s.get_temps_total())
+                {
+                    meilleur_voisin_trouve = true;
+                    budget_perdu++;
+                    s = s2;
+                    parcours.push_back(s.get_temps_total());
+                }
+                else
+                {
+                    inst.set_permutation(save);
+                    budget_perdu++;
+                }
+            }
+            if (!meilleur_voisin_trouve || budget_perdu >= budget)
+            {
+                termine = true;
+            }
+        }
+    }
+
+    s.set_run(parcours);
+    return s;
+}
+
 Solution Calc_feature::Descente_ILS(Instance inst, string fitness, string voisinage, int budget, int ln_saut, bool critic)
 {
     cout << "TODO Solution Calc_feature::Descente_ILS(Instance inst, string fitness, string voisinage, int budget, int ln_saut, bool critic)" << endl;

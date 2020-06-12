@@ -209,7 +209,6 @@ vector<pair<int, int>> Voisinage::trans(vector<pair<int, int>> permutation)
 
 vector<pair<int, int>> Voisinage::Creer_voisin(vector<pair<int, int>> permutation)
 {
-    srand(time(NULL));
     int nbr_voisin = 0;
     int nbr_voisin_swap = 0;
     int nbr_voisin_trans = 0;

@@ -159,7 +159,7 @@ feature_amalgams Retenir_paquet_de_run(Instance inst, string voisinage, string f
     {
         for (int i = 0; i < taille_paquet; i++)
             runs.push_back(Calc_feature::Hill_climbing_and_best(inst, fitness, voisinage, (voisinage.find("crit") != std::string::npos)));
-    }       
+    }
     else
     {
         cout << "ERREUR : MAUVAISE DESCENTE" << endl;
@@ -343,6 +343,36 @@ int main(int argc, char *argv[])
 
     */
 
+    ofstream fichier("comp_desc_rand");
+    fichier << "nom,budget,descente,random" << endl;
+    for (unsigned int inst = 0; inst < instances.size(); inst++)
+    {
+        auto ist = instances[inst];
+        for (int i = 1; i < 51; i++)
+        {
+            int budget = i * ist.get_nbr_machine() * ist.get_nbr_machine() * ist.get_nbr_job();
+            fichier << ist.get_nom();
+            fichier << ",";
+            fichier << budget;
+            fichier << ",";
+            cout << ist.get_nom() << " : " << i << endl;
+            int res_desc = Calc_feature::Hill_climbing_with_budget(ist, "nd", "swap", budget, false).get_temps_total();
+            fichier << res_desc;
+            fichier << ",";
+            int res_rand = 100000000;
+            Fitness fit;
+            for (int j = 0; j < budget; j++)
+            {
+                ist.initialisation_permutation();
+                int res_rand_new = fit.calcul_solution(ist, "nd").get_temps_total();
+                if (res_rand_new < res_rand)
+                    res_rand = res_rand_new;
+            }
+            fichier << res_rand << endl;
+        }
+    }
+    /*
+
     //Création du fichier
     ofstream fichier(filepath);
     fichier << "nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,";
@@ -384,11 +414,11 @@ int main(int argc, char *argv[])
                 for (unsigned int lg = 0; lg < courbe.size(); lg++)
                     fc << courbe[lg].first << "," << courbe[lg].second << endl;
                 fc.close();
-                */
+                
             }
         }
     }
-
+    */
     return 0;
 }
 
