@@ -248,8 +248,8 @@ int main(int argc, char *argv[])
         cout << p1 << ":" << p2 << endl;
         //Instance fic = Instance("Gp03-01");
 
-        filepath = "data/Ta" + p1 + "-" + p2 + ".csv";
-        Instance fic = Instance("Ta" + p1 + "-" + p2);
+        filepath = "data/Gp" + p1 + "-" + p2 + ".csv";
+        Instance fic = Instance("Gp" + p1 + "-" + p2);
         instances.push_back(fic);
     }
     else
@@ -341,7 +341,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    */
 
     ofstream fichier("comp_desc_rand");
     fichier << "nom,budget,descente,random" << endl;
@@ -356,7 +355,7 @@ int main(int argc, char *argv[])
             fichier << budget;
             fichier << ",";
             cout << ist.get_nom() << " : " << i << endl;
-            int res_desc = Calc_feature::Hill_climbing_with_budget(ist, "nd", "swap", budget, false).get_temps_total();
+            int res_desc = Calc_feature::Hill_climbing_with_budget(ist, "FIFO-simple", "swap", budget, false).get_temps_total();
             fichier << res_desc;
             fichier << ",";
             int res_rand = 100000000;
@@ -364,14 +363,15 @@ int main(int argc, char *argv[])
             for (int j = 0; j < budget; j++)
             {
                 ist.initialisation_permutation();
-                int res_rand_new = fit.calcul_solution(ist, "nd").get_temps_total();
+                int res_rand_new = fit.calcul_solution(ist, "FIFO-simple").get_temps_total();
                 if (res_rand_new < res_rand)
                     res_rand = res_rand_new;
             }
             fichier << res_rand << endl;
         }
     }
-    /*
+
+    */
 
     //Création du fichier
     ofstream fichier(filepath);
@@ -385,10 +385,9 @@ int main(int argc, char *argv[])
 
     //Initialisation des fitness et voisinage exploitable
     //vector<string> voisinages = {"swap","insert","swap+insert","swap_critic", "insert_critic", "swap+insert_critic","swap_jump","insert_jump","swap+insert_jump"};
-    vector<string> voisinages = {"swap","swap_nrd","swap_jump","swap_jump_nrd"};
-    //vector<string> fitnesses = {"nd", "fast", "giffler", "FIFO-simple", "best"};
-    vector<string> fitnesses = {"nd", "giffler", "FIFO-simple", "FIFO-critique"};
-    //vector<string> fitnesses = {"FIFO-simple"};
+    vector<string> voisinages = {"swap"};
+    //vector<string> fitnesses = {"nd", "fast", "giffler", "FIFO-simple", "best", "FIFO-critique", "prio"};
+    vector<string> fitnesses = {"nd","FIFO-critique","prio"};
 
     //Features et enrengistrement des landscapes
     for (unsigned int inst = 0; inst < instances.size(); inst++)
@@ -414,11 +413,10 @@ int main(int argc, char *argv[])
                 for (unsigned int lg = 0; lg < courbe.size(); lg++)
                     fc << courbe[lg].first << "," << courbe[lg].second << endl;
                 fc.close();
-                
+                */
             }
         }
     }
-    */
     return 0;
 }
 

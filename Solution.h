@@ -12,7 +12,7 @@ private:
     vector<int> run;
     bool chemin_critique_inscrit;
     vector<pair<int,int>> chemin_critique;
-
+    float temps_total;
 public:
     Solution(vector<pair<pair<int, int>, int>> temps, vector<int> run);
     Solution(vector<pair<pair<int, int>, int>> temps);

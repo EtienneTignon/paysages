@@ -1,0 +1,7 @@
+nom_instance,nbr_machine,nbr_job,borne_inférieur,ecart_type,optimum_connu,optimum_global,voisinage,fitness,autocorrélation,ac_sans_neutre,ac_sans_plateau,taux_neutre,descente,resultat_min,resultat_moyen,resultat_max,nbr_pas_min,nbr_pas_moyen,nbr_pas_max,freq_optimum_glob,freq_borne_inf
+Ta07-02,7,7,443,32.8118,1,443,swap,nd,3.18164,0.274139,0.345777,0.6883,SHC,447,459.15,475,1,5.62,14,0,0
+Ta07-02,7,7,443,32.8118,1,443,swap,nd,3.18164,0.274139,0.345777,0.6883,SHC_with_budget,446,453.26,462,2987,5094.56,10297,0,0
+Ta07-02,7,7,443,32.8118,1,443,swap,FIFO-critique,6.00587,4.4537,4.8433,0.3014,SHC,472,511.64,575,16,31.05,45,0,0
+Ta07-02,7,7,443,32.8118,1,443,swap,FIFO-critique,6.00587,4.4537,4.8433,0.3014,SHC_with_budget,452,477.42,517,706,1540.84,2795,0,0
+Ta07-02,7,7,443,32.8118,1,443,swap,prio,2.6966,0.468189,0.369814,0.6939,SHC,447,458.12,468,15,44.95,86,0,0
+Ta07-02,7,7,443,32.8118,1,443,swap,prio,2.6966,0.468189,0.369814,0.6939,SHC_with_budget,445,455.51,464,792,2111.5,4855,0,0

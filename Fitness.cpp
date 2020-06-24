@@ -39,6 +39,34 @@ Solution Fitness::calcul_solution(Instance inst, string methode)
     return Solution(sol);
 }
 
+vector<Solution> Fitness::calcul_fitness(Instance inst, string methode)
+{
+    vector<Solution> fit = {};
+    if (methode == "nd" || methode == "giffler" || methode == "fast" || methode == "FIFO-simple" || methode == "FIFO-critique" || methode == "best")
+    {
+        fit.push_back(this->calcul_solution(inst, methode));
+    }
+    else if (methode == "prio")
+    {
+        Solution snd = this->calcul_solution(inst, "nd");
+        Solution scr = this->calcul_solution(inst, "FIFO-critique");
+        if(snd.get_temps_total() < scr.get_temps_total())
+        {
+            fit.push_back(snd);
+            fit.push_back(scr);
+        }
+        else
+        {
+            fit.push_back(scr);
+            fit.push_back(snd);
+        }
+        
+    }
+    else
+        cout << "Méthode inconnu" << endl;
+    return fit;
+}
+
 Solution Fitness::nd_engine(Instance inst)
 {
     //Initialize solution.
@@ -429,4 +457,18 @@ vector<pair<int, int>> Fitness::calcul_chemin_critique(Solution s, Instance inst
         }
     }
     return Chemin_critique;
+}
+
+string Fitness::comparaison_fitness(vector<Solution> a, vector<Solution> b)
+{
+    int s1 = a.size();
+    int s2 = b.size();
+    if(s1!=s2) return "error";
+
+    for(int i=0; i<s1; i++)
+    {
+        if(a[i].get_temps_total()>b[i].get_temps_total()) return "greater";
+        if(a[i].get_temps_total()<b[i].get_temps_total()) return "lower";
+    }
+    return "equal";
 }
