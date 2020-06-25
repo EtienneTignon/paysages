@@ -659,6 +659,7 @@ vector<pair<int, float>> Calc_feature::courbe_de_rugosite(Instance inst, string 
     return courbe;
 }
 
+/*
 float Calc_feature::taux_neutre(Instance inst, string voisinage, string fitness)
 {
     vector<int> result = Calc_feature::Random_walk(inst, fitness, voisinage, 10000);
@@ -670,4 +671,28 @@ float Calc_feature::taux_neutre(Instance inst, string voisinage, string fitness)
     }
     float ratio = nbr_trans_neutre / (result.size() - 1);
     return ratio;
+}
+*/
+
+float Calc_feature::taux_neutre(Instance inst, string voisinage, string fitness)
+{
+    int nbr_trans_neutre = 0;
+    inst.initialisation_permutation();
+    Fitness fit;
+    vector<Solution> s = fit.calcul_fitness(inst, fitness);
+    for (int iter = 1; iter <= 10000; iter++)
+    {
+        Instance inst2 = inst;
+        if (voisinage.find("jump") != std::string::npos)
+            inst2.recreer_instance_depuis_solution(s[0]);
+        bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+        Voisinage voi(voisinage, inst2, not_redundant);
+        vector<Solution> s2 = fit.calcul_fitness(inst2, fitness);
+        inst2.set_permutation(voi.Creer_voisin(inst.get_permutation()));
+        if(fit.comparaison_fitness(s,s2) == "equal")
+            nbr_trans_neutre++;
+        s = s2;
+        inst = inst2;
+    }
+    return (((float)nbr_trans_neutre)/9999);
 }
