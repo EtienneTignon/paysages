@@ -160,6 +160,12 @@ feature_amalgams Retenir_paquet_de_run(Instance inst, string voisinage, string f
         for (int i = 0; i < taille_paquet; i++)
             runs.push_back(Calc_feature::Hill_climbing_and_best(inst, fitness, voisinage, (voisinage.find("crit") != std::string::npos)));
     }
+    else if (descente == "SHC_with_restart")
+    {
+        int budget = inst.get_nbr_machine() * inst.get_nbr_job() * 500;
+        for (int i = 0; i < taille_paquet; i++)
+            runs.push_back(Calc_feature::Hill_climbing_with_budget_and_restart(inst, fitness, voisinage, budget, (voisinage.find("crit") != std::string::npos)));
+    }
     else
     {
         cout << "ERREUR : MAUVAISE DESCENTE" << endl;
@@ -341,21 +347,22 @@ int main(int argc, char *argv[])
         }
     }
 
-
+*/
     ofstream fichier("comp_desc_rand");
     fichier << "nom,budget,descente,random" << endl;
     for (unsigned int inst = 0; inst < instances.size(); inst++)
     {
         auto ist = instances[inst];
-        for (int i = 1; i < 51; i++)
+        for (int i = 1; i < 41; i++)
         {
-            int budget = i * ist.get_nbr_machine() * ist.get_nbr_machine() * ist.get_nbr_job();
+            int budget = i * ist.get_nbr_machine() * ist.get_nbr_job();
             fichier << ist.get_nom();
             fichier << ",";
             fichier << budget;
             fichier << ",";
             cout << ist.get_nom() << " : " << i << endl;
-            int res_desc = Calc_feature::Hill_climbing_with_budget(ist, "FIFO-simple", "swap", budget, false).get_temps_total();
+            //int res_desc = Calc_feature::Hill_climbing_with_budget(ist, "FIFO-critique", "swap", budget, false).get_temps_total();
+            int res_desc = Calc_feature::Hill_climbing_with_budget_and_restart(ist, "prio", "swap_jump_nrd", budget, false).get_temps_total();
             fichier << res_desc;
             fichier << ",";
             int res_rand = 100000000;
@@ -363,7 +370,7 @@ int main(int argc, char *argv[])
             for (int j = 0; j < budget; j++)
             {
                 ist.initialisation_permutation();
-                int res_rand_new = fit.calcul_solution(ist, "FIFO-simple").get_temps_total();
+                int res_rand_new = fit.calcul_solution(ist, "best").get_temps_total();
                 if (res_rand_new < res_rand)
                     res_rand = res_rand_new;
             }
@@ -371,7 +378,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    */
+    /*
 
     //Création du fichier
     ofstream fichier(filepath);
@@ -384,7 +391,7 @@ int main(int argc, char *argv[])
     fichier.close();
 
     //Initialisation des fitness et voisinage exploitable
-    //vector<string> voisinages = {"swap","insert","swap+insert","swap_critic", "insert_critic", "swap+insert_critic","swap_jump","insert_jump","swap+insert_jump"};
+    //vector<string> voisinages = {"swap","insert","swap+insert","swap_critic", "insert_critic", "swap+insert_critic","swap_jump","insert_jump","swap+insert_jump", "swap_jump_nrd"};
     vector<string> voisinages = {"swap"};
     //vector<string> fitnesses = {"nd", "fast", "giffler", "FIFO-simple", "best", "FIFO-critique", "prio"};
     vector<string> fitnesses = {"nd","FIFO-critique","prio"};
@@ -413,10 +420,12 @@ int main(int argc, char *argv[])
                 for (unsigned int lg = 0; lg < courbe.size(); lg++)
                     fc << courbe[lg].first << "," << courbe[lg].second << endl;
                 fc.close();
-                */
+                
             }
         }
     }
+
+    */
     return 0;
 }
 

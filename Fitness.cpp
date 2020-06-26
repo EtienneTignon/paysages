@@ -49,18 +49,207 @@ vector<Solution> Fitness::calcul_fitness(Instance inst, string methode)
     else if (methode == "prio")
     {
         Solution snd = this->calcul_solution(inst, "nd");
+        Solution sgf = this->calcul_solution(inst, "giffler");
+        Solution ssp = this->calcul_solution(inst, "FIFO-simple");
         Solution scr = this->calcul_solution(inst, "FIFO-critique");
-        if(snd.get_temps_total() < scr.get_temps_total())
+
+        int sndt = snd.get_temps_total();
+        int sgft = sgf.get_temps_total();
+        int sspt = ssp.get_temps_total();
+        int scrt = scr.get_temps_total();
+
+        if (sndt < sgft)
         {
-            fit.push_back(snd);
-            fit.push_back(scr);
+            if (sgft < sspt)
+            {
+                if (sspt < scrt)
+                {
+                    fit.push_back(snd);
+                    fit.push_back(sgf);
+                    fit.push_back(ssp);
+                    fit.push_back(scr);
+                }
+                else if (sgft < scrt)
+                {
+                    fit.push_back(snd);
+                    fit.push_back(sgf);
+                    fit.push_back(scr);
+                    fit.push_back(ssp);
+                }
+                else if (sgft < scrt)
+                {
+                    fit.push_back(snd);
+                    fit.push_back(scr);
+                    fit.push_back(sgf);
+                    fit.push_back(ssp);
+                }
+                else
+                {
+                    fit.push_back(scr);
+                    fit.push_back(snd);
+                    fit.push_back(sgf);
+                    fit.push_back(ssp);
+                }
+            }
+            else if (sndt < sspt)
+            {
+                if (sgft < scrt)
+                {
+                    fit.push_back(snd);
+                    fit.push_back(ssp);
+                    fit.push_back(sgf);
+                    fit.push_back(scr);
+                }
+                else if (sspt < scrt)
+                {
+                    fit.push_back(snd);
+                    fit.push_back(ssp);
+                    fit.push_back(scr);
+                    fit.push_back(sgf);
+                }
+                else if (sndt < scrt)
+                {
+                    fit.push_back(snd);
+                    fit.push_back(scr);
+                    fit.push_back(ssp);
+                    fit.push_back(sgf);
+                }
+                else
+                {
+                    fit.push_back(scr);
+                    fit.push_back(snd);
+                    fit.push_back(ssp);
+                    fit.push_back(sgf);
+                }
+            }
+            else
+            {
+                if (sgft < scrt)
+                {
+                    fit.push_back(ssp);
+                    fit.push_back(snd);
+                    fit.push_back(sgf);
+                    fit.push_back(scr);
+                }
+                else if (sndt < scrt)
+                {
+                    fit.push_back(ssp);
+                    fit.push_back(snd);
+                    fit.push_back(scr);
+                    fit.push_back(sgf);
+                }
+                else if (sspt < scrt)
+                {
+                    fit.push_back(ssp);
+                    fit.push_back(scr);
+                    fit.push_back(snd);
+                    fit.push_back(sgf);
+                }
+                else
+                {
+                    fit.push_back(scr);
+                    fit.push_back(ssp);
+                    fit.push_back(snd);
+                    fit.push_back(sgf);
+                }
+            }
         }
         else
         {
-            fit.push_back(scr);
-            fit.push_back(snd);
+            if (sndt < sspt)
+            {
+                if (sspt < scrt)
+                {
+                    fit.push_back(sgf);
+                    fit.push_back(snd);
+                    fit.push_back(ssp);
+                    fit.push_back(scr);
+                }
+                else if (sndt < scrt)
+                {
+                    fit.push_back(sgf);
+                    fit.push_back(snd);
+                    fit.push_back(scr);
+                    fit.push_back(ssp);
+                }
+                else if (sgft < scrt)
+                {
+                    fit.push_back(sgf);
+                    fit.push_back(scr);
+                    fit.push_back(snd);
+                    fit.push_back(ssp);
+                }
+                else
+                {
+                    fit.push_back(scr);
+                    fit.push_back(sgf);
+                    fit.push_back(snd);
+                    fit.push_back(ssp);
+                }
+            }
+            else if (sgft < sspt)
+            {
+                if (sndt < scrt)
+                {
+                    fit.push_back(sgf);
+                    fit.push_back(ssp);
+                    fit.push_back(snd);
+                    fit.push_back(scr);
+                }
+                else if (sspt < scrt)
+                {
+                    fit.push_back(sgf);
+                    fit.push_back(ssp);
+                    fit.push_back(scr);
+                    fit.push_back(snd);
+                }
+                else if (sgft < scrt)
+                {
+                    fit.push_back(sgf);
+                    fit.push_back(scr);
+                    fit.push_back(ssp);
+                    fit.push_back(snd);
+                }
+                else
+                {
+                    fit.push_back(scr);
+                    fit.push_back(sgf);
+                    fit.push_back(ssp);
+                    fit.push_back(snd);
+                }
+            }
+            else
+            {
+                if (sndt < scrt)
+                {
+                    fit.push_back(ssp);
+                    fit.push_back(sgf);
+                    fit.push_back(snd);
+                    fit.push_back(scr);
+                }
+                else if (sgft < scrt)
+                {
+                    fit.push_back(ssp);
+                    fit.push_back(sgf);
+                    fit.push_back(scr);
+                    fit.push_back(snd);
+                }
+                else if (sspt < scrt)
+                {
+                    fit.push_back(ssp);
+                    fit.push_back(scr);
+                    fit.push_back(sgf);
+                    fit.push_back(snd);
+                }
+                else
+                {
+                    fit.push_back(scr);
+                    fit.push_back(ssp);
+                    fit.push_back(sgf);
+                    fit.push_back(snd);
+                }
+            }
         }
-        
     }
     else
         cout << "Méthode inconnu" << endl;
@@ -463,12 +652,17 @@ string Fitness::comparaison_fitness(vector<Solution> a, vector<Solution> b)
 {
     int s1 = a.size();
     int s2 = b.size();
-    if(s1!=s2) return "error";
-
-    for(int i=0; i<s1; i++)
+    if (s1 != s2)
     {
-        if(a[i].get_temps_total()>b[i].get_temps_total()) return "greater";
-        if(a[i].get_temps_total()<b[i].get_temps_total()) return "lower";
+        cout << "error Fitness::comparaison_fitness deux liste de taille différentes incomparable.";
+        return "error";
+    }
+    for (int i = 0; i < s1; i++)
+    {
+        if (a[i].get_temps_total() > b[i].get_temps_total())
+            return "greater";
+        if (a[i].get_temps_total() < b[i].get_temps_total())
+            return "lower";
     }
     return "equal";
 }

@@ -15,6 +15,7 @@ public:
     static Solution Hill_climbing_and_best(Instance inst, string fitness, string voisinage, bool critic);
     static Solution Hill_climbing_with_neutral_and_best(Instance inst, string fitness, string voisinage, int budget, bool critic);
     static Solution Hill_climbing_with_budget(Instance inst, string fitness, string voisinage, int budget, bool critic);
+    static Solution Hill_climbing_with_budget_and_restart(Instance inst, string fitness, string voisinage, int budget, bool critic);
     static Solution Descente_ILS(Instance inst, string fitness, string voisinage, int budget, int ln_saut, bool critic);
     static float rugosite(Instance inst, string voisinage, string fitness, string rugosite);
     static vector<pair<int,float>> courbe_de_rugosite(Instance inst, string voisinage, string fitness, string rugosite);

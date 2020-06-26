@@ -120,7 +120,7 @@ Solution Calc_feature::Hill_climbing(Instance inst, string fitness, string voisi
 
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater")
+                if (fit.comparaison_fitness(s, s2) == "greater")
                 {
                     //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
                     meilleur_voisin_trouve = true;
@@ -155,7 +155,7 @@ Solution Calc_feature::Hill_climbing(Instance inst, string fitness, string voisi
 
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater")
+                if (fit.comparaison_fitness(s, s2) == "greater")
                 {
                     //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
                     meilleur_voisin_trouve = true;
@@ -176,6 +176,104 @@ Solution Calc_feature::Hill_climbing(Instance inst, string fitness, string voisi
 
     s[0].set_run(parcours);
     return s[0];
+}
+
+Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, string fitness, string voisinage, int budget, bool critic)
+{
+    //Initialisation de la liste des voisins et autres variables de la recherche local
+    vector<int> parcours = {};
+    random_device rd;
+    bool done = false;
+    Fitness fit;
+    vector<Solution> s = fit.calcul_fitness(inst, fitness);
+    vector<Solution> s_fin = s;
+    while (budget > 0)
+    {
+        inst.initialisation_permutation();
+        bool termine = false;
+        vector<Solution> s = fit.calcul_fitness(inst, fitness);
+        vector<Solution> s2 = s;
+        parcours.push_back(s[0].get_temps_total());
+        if (!critic)
+        {
+            while (!termine)
+            {
+                if (voisinage.find("jump") != std::string::npos)
+                    inst.recreer_instance_depuis_solution(s[0]);
+                //Randomisation de la liste des voisins.
+                bool not_redundant = (voisinage.find("nrd") != std::string::npos);
+                Voisinage voi(voisinage, inst, not_redundant);
+                voi.Reinitialiser_voisin();
+                bool meilleur_voisin_trouve = false;
+                vector<pair<int, int>> save = inst.get_permutation();
+                //Parcours des voisins
+                while (!meilleur_voisin_trouve && !voi.Voisinage_parcouru())
+                {
+
+                    inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
+                    s2 = fit.calcul_fitness(inst, fitness);
+                    budget--;
+                    if (fit.comparaison_fitness(s, s2) == "greater")
+                    {
+                        //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
+                        meilleur_voisin_trouve = true;
+                        s = s2;
+                        parcours.push_back(s[0].get_temps_total());
+                    }
+                    else
+                    {
+                        inst.set_permutation(save);
+                    }
+                }
+                if (!meilleur_voisin_trouve || budget <= 0)
+                {
+                    termine = true;
+                }
+            }
+        }
+        else
+        {
+            while (!termine)
+            {
+                if (voisinage.find("jump") != std::string::npos)
+                    inst.recreer_instance_depuis_solution(s[0]);
+                //Randomisation de la liste des voisins.
+                Voisinage voi(voisinage, inst, s[0]);
+                voi.Reinitialiser_voisin();
+                bool meilleur_voisin_trouve = false;
+                vector<pair<int, int>> save = inst.get_permutation();
+                //Parcours des voisins
+                while (!meilleur_voisin_trouve && !voi.Voisinage_parcouru())
+                {
+
+                    inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
+                    s2 = fit.calcul_fitness(inst, fitness);
+                    budget--;
+                    if (fit.comparaison_fitness(s, s2) == "greater")
+                    {
+                        //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
+                        meilleur_voisin_trouve = true;
+                        s = s2;
+                        parcours.push_back(s[0].get_temps_total());
+                    }
+                    else
+                    {
+                        inst.set_permutation(save);
+                    }
+                }
+                if (!meilleur_voisin_trouve || budget <= 0)
+                {
+                    termine = true;
+                }
+            }
+        }
+        if (fit.comparaison_fitness(s, s_fin) == "lower")
+        {
+            s_fin = s;
+        }
+    }
+    s_fin[0].set_run(parcours);
+    return s_fin[0];
 }
 
 Solution Calc_feature::Hill_climbing_with_neutral(Instance inst, string fitness, string voisinage, int budget, bool critic)
@@ -209,10 +307,10 @@ Solution Calc_feature::Hill_climbing_with_neutral(Instance inst, string fitness,
             {
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater" || fit.comparaison_fitness(s,s2) == "equal")
+                if (fit.comparaison_fitness(s, s2) == "greater" || fit.comparaison_fitness(s, s2) == "equal")
                 {
                     meilleur_voisin_trouve = true;
-                    if (fit.comparaison_fitness(s,s2) == "greater")
+                    if (fit.comparaison_fitness(s, s2) == "greater")
                         budget_perdu = 0;
                     else
                         budget_perdu++;
@@ -247,10 +345,10 @@ Solution Calc_feature::Hill_climbing_with_neutral(Instance inst, string fitness,
             {
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater" || fit.comparaison_fitness(s,s2) == "equal")
+                if (fit.comparaison_fitness(s, s2) == "greater" || fit.comparaison_fitness(s, s2) == "equal")
                 {
                     meilleur_voisin_trouve = true;
-                    if (fit.comparaison_fitness(s,s2) == "greater")
+                    if (fit.comparaison_fitness(s, s2) == "greater")
                         budget_perdu = 0;
                     else
                         budget_perdu++;
@@ -305,7 +403,7 @@ Solution Calc_feature::Hill_climbing_and_best(Instance inst, string fitness, str
 
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater")
+                if (fit.comparaison_fitness(s, s2) == "greater")
                 {
                     //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
                     meilleur_voisin_trouve = true;
@@ -340,7 +438,7 @@ Solution Calc_feature::Hill_climbing_and_best(Instance inst, string fitness, str
 
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater")
+                if (fit.comparaison_fitness(s, s2) == "greater")
                 {
                     //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
                     meilleur_voisin_trouve = true;
@@ -395,10 +493,10 @@ Solution Calc_feature::Hill_climbing_with_neutral_and_best(Instance inst, string
             {
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater" || fit.comparaison_fitness(s,s2) == "equal")
+                if (fit.comparaison_fitness(s, s2) == "greater" || fit.comparaison_fitness(s, s2) == "equal")
                 {
                     meilleur_voisin_trouve = true;
-                    if (fit.comparaison_fitness(s,s2) == "greater")
+                    if (fit.comparaison_fitness(s, s2) == "greater")
                         budget_perdu = 0;
                     else
                         budget_perdu++;
@@ -433,10 +531,10 @@ Solution Calc_feature::Hill_climbing_with_neutral_and_best(Instance inst, string
             {
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater" || fit.comparaison_fitness(s,s2) == "equal")
+                if (fit.comparaison_fitness(s, s2) == "greater" || fit.comparaison_fitness(s, s2) == "equal")
                 {
                     meilleur_voisin_trouve = true;
-                    if (fit.comparaison_fitness(s,s2) == "greater")
+                    if (fit.comparaison_fitness(s, s2) == "greater")
                         budget_perdu = 0;
                     else
                         budget_perdu++;
@@ -492,7 +590,7 @@ Solution Calc_feature::Hill_climbing_with_budget(Instance inst, string fitness, 
             {
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater" || fit.comparaison_fitness(s,s2) == "equal")
+                if (fit.comparaison_fitness(s, s2) == "greater" || fit.comparaison_fitness(s, s2) == "equal")
                 {
                     meilleur_voisin_trouve = true;
                     budget_perdu++;
@@ -527,7 +625,7 @@ Solution Calc_feature::Hill_climbing_with_budget(Instance inst, string fitness, 
             {
                 inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                 s2 = fit.calcul_fitness(inst, fitness);
-                if (fit.comparaison_fitness(s,s2) == "greater" || fit.comparaison_fitness(s,s2) == "equal")
+                if (fit.comparaison_fitness(s, s2) == "greater" || fit.comparaison_fitness(s, s2) == "equal")
                 {
                     meilleur_voisin_trouve = true;
                     budget_perdu++;
@@ -689,10 +787,10 @@ float Calc_feature::taux_neutre(Instance inst, string voisinage, string fitness)
         Voisinage voi(voisinage, inst2, not_redundant);
         vector<Solution> s2 = fit.calcul_fitness(inst2, fitness);
         inst2.set_permutation(voi.Creer_voisin(inst.get_permutation()));
-        if(fit.comparaison_fitness(s,s2) == "equal")
+        if (fit.comparaison_fitness(s, s2) == "equal")
             nbr_trans_neutre++;
         s = s2;
         inst = inst2;
     }
-    return (((float)nbr_trans_neutre)/9999);
+    return (((float)nbr_trans_neutre) / 9999);
 }
