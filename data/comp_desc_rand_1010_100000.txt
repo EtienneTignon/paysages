@@ -1,0 +1,123 @@
+Instances/Gp10-01.txt
+Gp10-01 : 1
+ |run 1, budget 100000, valeur 1305->1150, val_min = 1150
+ |run 2, budget 91332, valeur 1297->1129, val_min = 1129
+ |run 3, budget 86152, valeur 1304->1115, val_min = 1115
+ |run 4, budget 74213, valeur 1206->1108, val_min = 1108
+ |run 5, budget 68480, valeur 1307->1147, val_min = 1108
+ |run 6, budget 62648, valeur 1288->1130, val_min = 1108
+ |run 7, budget 55408, valeur 1309->1157, val_min = 1108
+ |run 8, budget 49364, valeur 1352->1134, val_min = 1108
+ |run 9, budget 37709, valeur 1242->1129, val_min = 1108
+ |run 10, budget 27498, valeur 1269->1117, val_min = 1108
+ |run 11, budget 21090, valeur 1299->1135, val_min = 1108
+ |run 12, budget 8200, valeur 1260->1142, val_min = 1108
+ |run 13, budget 2238, valeur 1350->1133, val_min = 1108
+Gp10-01 : 2
+ |run 1, budget 100000, valeur 1179->1153, val_min = 1153
+ |run 2, budget 88999, valeur 1245->1130, val_min = 1130
+ |run 3, budget 83613, valeur 1279->1145, val_min = 1130
+ |run 4, budget 76747, valeur 1237->1119, val_min = 1119
+ |run 5, budget 69918, valeur 1278->1157, val_min = 1119
+ |run 6, budget 51926, valeur 1310->1156, val_min = 1119
+ |run 7, budget 45042, valeur 1219->1143, val_min = 1119
+ |run 8, budget 40020, valeur 1212->1138, val_min = 1119
+ |run 9, budget 33559, valeur 1252->1160, val_min = 1119
+ |run 10, budget 28079, valeur 1308->1114, val_min = 1114
+ |run 11, budget 18264, valeur 1347->1115, val_min = 1114
+ |run 12, budget 5671, valeur 1285->1134, val_min = 1114
+Gp10-01 : 3
+ |run 1, budget 100000, valeur 1283->1144, val_min = 1144
+ |run 2, budget 89600, valeur 1358->1129, val_min = 1129
+ |run 3, budget 81020, valeur 1345->1119, val_min = 1119
+ |run 4, budget 66894, valeur 1193->1161, val_min = 1119
+ |run 5, budget 61366, valeur 1211->1121, val_min = 1119
+ |run 6, budget 41315, valeur 1221->1168, val_min = 1119
+ |run 7, budget 36254, valeur 1182->1123, val_min = 1119
+ |run 8, budget 15622, valeur 1229->1116, val_min = 1116
+ |run 9, budget 6925, valeur 1253->1130, val_min = 1116
+Gp10-01 : 4
+ |run 1, budget 100000, valeur 1283->1127, val_min = 1127
+ |run 2, budget 87622, valeur 1307->1155, val_min = 1127
+ |run 3, budget 82784, valeur 1248->1140, val_min = 1127
+ |run 4, budget 73463, valeur 1263->1131, val_min = 1127
+ |run 5, budget 66045, valeur 1291->1136, val_min = 1127
+ |run 6, budget 55998, valeur 1247->1168, val_min = 1127
+ |run 7, budget 46845, valeur 1242->1131, val_min = 1127
+ |run 8, budget 37704, valeur 1347->1156, val_min = 1127
+ |run 9, budget 31185, valeur 1338->1133, val_min = 1127
+ |run 10, budget 10354, valeur 1278->1132, val_min = 1127
+ |run 11, budget 301, valeur 1242->1188, val_min = 1127
+Gp10-01 : 5
+ |run 1, budget 100000, valeur 1223->1145, val_min = 1145
+ |run 2, budget 93285, valeur 1289->1120, val_min = 1120
+ |run 3, budget 83258, valeur 1215->1137, val_min = 1120
+ |run 4, budget 78165, valeur 1280->1138, val_min = 1120
+ |run 5, budget 67118, valeur 1309->1125, val_min = 1120
+ |run 6, budget 61929, valeur 1263->1141, val_min = 1120
+ |run 7, budget 55900, valeur 1189->1119, val_min = 1119
+ |run 8, budget 35793, valeur 1241->1129, val_min = 1119
+ |run 9, budget 30852, valeur 1247->1151, val_min = 1119
+ |run 10, budget 23509, valeur 1262->1129, val_min = 1119
+ |run 11, budget 13860, valeur 1251->1143, val_min = 1119
+ |run 12, budget 6702, valeur 1301->1129, val_min = 1119
+Gp10-01 : 6
+ |run 1, budget 100000, valeur 1254->1124, val_min = 1124
+ |run 2, budget 91650, valeur 1290->1138, val_min = 1124
+ |run 3, budget 73466, valeur 1281->1150, val_min = 1124
+ |run 4, budget 66743, valeur 1218->1114, val_min = 1114
+ |run 5, budget 54655, valeur 1303->1119, val_min = 1114
+ |run 6, budget 36451, valeur 1339->1156, val_min = 1114
+ |run 7, budget 26791, valeur 1308->1117, val_min = 1114
+ |run 8, budget 16935, valeur 1257->1133, val_min = 1114
+ |run 9, budget 8382, valeur 1285->1165, val_min = 1114
+Gp10-01 : 7
+ |run 1, budget 100000, valeur 1327->1138, val_min = 1138
+ |run 2, budget 89927, valeur 1158->1137, val_min = 1137
+ |run 3, budget 84812, valeur 1316->1158, val_min = 1137
+ |run 4, budget 77953, valeur 1299->1139, val_min = 1137
+ |run 5, budget 65005, valeur 1280->1112, val_min = 1112
+ |run 6, budget 57334, valeur 1220->1126, val_min = 1112
+ |run 7, budget 49241, valeur 1283->1149, val_min = 1112
+ |run 8, budget 37460, valeur 1239->1136, val_min = 1112
+ |run 9, budget 31892, valeur 1265->1159, val_min = 1112
+ |run 10, budget 20954, valeur 1235->1124, val_min = 1112
+ |run 11, budget 9261, valeur 1250->1136, val_min = 1112
+ |run 12, budget 3466, valeur 1203->1112, val_min = 1112
+Gp10-01 : 8
+ |run 1, budget 100000, valeur 1241->1154, val_min = 1154
+ |run 2, budget 90212, valeur 1327->1126, val_min = 1126
+ |run 3, budget 80896, valeur 1220->1146, val_min = 1126
+ |run 4, budget 68960, valeur 1259->1128, val_min = 1126
+ |run 5, budget 62188, valeur 1199->1134, val_min = 1126
+ |run 6, budget 54654, valeur 1277->1129, val_min = 1126
+ |run 7, budget 43477, valeur 1220->1113, val_min = 1113
+ |run 8, budget 28853, valeur 1283->1163, val_min = 1113
+ |run 9, budget 22625, valeur 1235->1135, val_min = 1113
+ |run 10, budget 15691, valeur 1316->1147, val_min = 1113
+ |run 11, budget 10102, valeur 1284->1146, val_min = 1113
+ |run 12, budget 2875, valeur 1285->1136, val_min = 1113
+Gp10-01 : 9
+ |run 1, budget 100000, valeur 1303->1133, val_min = 1133
+ |run 2, budget 93732, valeur 1220->1126, val_min = 1126
+ |run 3, budget 76147, valeur 1212->1113, val_min = 1113
+ |run 4, budget 58918, valeur 1284->1128, val_min = 1113
+ |run 5, budget 52461, valeur 1296->1157, val_min = 1113
+ |run 6, budget 44795, valeur 1350->1155, val_min = 1113
+ |run 7, budget 38130, valeur 1251->1138, val_min = 1113
+ |run 8, budget 30508, valeur 1279->1138, val_min = 1113
+ |run 9, budget 25161, valeur 1298->1113, val_min = 1113
+Gp10-01 : 10
+ |run 1, budget 100000, valeur 1250->1139, val_min = 1139
+ |run 2, budget 94719, valeur 1310->1148, val_min = 1139
+ |run 3, budget 81226, valeur 1242->1174, val_min = 1139
+ |run 4, budget 74815, valeur 1247->1130, val_min = 1130
+ |run 5, budget 68212, valeur 1231->1124, val_min = 1124
+ |run 6, budget 59196, valeur 1228->1119, val_min = 1119
+ |run 7, budget 51350, valeur 1253->1135, val_min = 1119
+ |run 8, budget 45042, valeur 1321->1148, val_min = 1119
+ |run 9, budget 39719, valeur 1225->1129, val_min = 1119
+ |run 10, budget 30825, valeur 1300->1145, val_min = 1119
+ |run 11, budget 21495, valeur 1374->1134, val_min = 1119
+ |run 12, budget 15331, valeur 1254->1151, val_min = 1119
+ |run 13, budget 6878, valeur 1269->1128, val_min = 1119

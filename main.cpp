@@ -164,7 +164,7 @@ feature_amalgams Retenir_paquet_de_run(Instance inst, string voisinage, string f
     {
         int budget = inst.get_nbr_machine() * inst.get_nbr_job() * 500;
         for (int i = 0; i < taille_paquet; i++)
-            runs.push_back(Calc_feature::Hill_climbing_with_budget_and_restart(inst, fitness, voisinage, budget, (voisinage.find("crit") != std::string::npos)));
+            runs.push_back(Calc_feature::Hill_climbing_with_budget_and_restart(inst, fitness, voisinage, budget, (voisinage.find("crit") != std::string::npos), false, 0));
     }
     else
     {
@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
         Instance inst_2_1 = Instance(2, 2, in2_1, false, 0, "2x2");
         instances.push_back(inst_2_1);
         */
-        vector<vector<int>> in3_1 =
+        /*vector<vector<int>> in3_1 =
             {{661, 168, 171},
              {6, 489, 505},
              {333, 343, 324}};
@@ -309,7 +309,7 @@ int main(int argc, char *argv[])
              {301, 12, 27, 204, 130, 326},
              {650, 10, 1, 337, 1, 1}};
         Instance inst_6_1 = Instance(6, 6, in6_1, true, 1264, "GP06-01");
-        instances.push_back(inst_6_1);
+        instances.push_back(inst_6_1);*/
         vector<vector<int>> in10_1 =
             {{69, 458, 1, 142, 15, 2, 98, 45, 169, 1},
              {175, 1, 464, 1, 1, 14, 232, 1, 1, 110},
@@ -324,46 +324,51 @@ int main(int argc, char *argv[])
         Instance inst_10_1 = Instance(10, 10, in10_1, true, 1093, "GP10-01");
         instances.push_back(inst_10_1);
     }
-
-    /*
-
+/*
     for (unsigned int i = 0; i < instances.size(); i++)
     {
-            cout << i << endl;
+        cout << i << endl;
         string filename = "corr_fit_" + instances[i].get_nom() + ".csv";
         ofstream fichier(filename);
         fichier << "ND,Giffler,FIFO,Perles";
 
         Fitness f;
 
-        for (int j=0; j<(instances[i].get_nbr_job()*instances[i].get_nbr_job()*instances[i].get_nbr_job()*100); j++)
+        for (int j = 0; j < (instances[i].get_nbr_job() * instances[i].get_nbr_job() * instances[i].get_nbr_job() * 100); j++)
         {
+            if(j%1000 == 0)
+                cout << j << endl;
             fichier << endl;
             instances[i].initialisation_permutation();
-            fichier << f.calcul_solution(instances[i],"nd").get_temps_total() << ",";
-            fichier << f.calcul_solution(instances[i],"giffler").get_temps_total() << ",";
-            fichier << f.calcul_solution(instances[i],"FIFO-simple").get_temps_total() << ",";
-            fichier << f.calcul_solution(instances[i],"FIFO-critique").get_temps_total();
+            fichier << f.calcul_solution(instances[i], "nd").get_temps_total() << ",";
+            fichier << f.calcul_solution(instances[i], "giffler").get_temps_total() << ",";
+            fichier << f.calcul_solution(instances[i], "FIFO-simple").get_temps_total() << ",";
+            fichier << f.calcul_solution(instances[i], "FIFO-critique").get_temps_total();
         }
     }
 
-*/
-    ofstream fichier("comp_desc_rand");
-    fichier << "nom,budget,descente,random" << endl;
+    */
+    ofstream fichier("comp_desc_rand_1010.csv");
+    fichier << "nom,budget,descente,descente fréné,random" << endl;
     for (unsigned int inst = 0; inst < instances.size(); inst++)
     {
         auto ist = instances[inst];
-        for (int i = 1; i < 41; i++)
+        for (int i = 1; i <= 10; i++)
         {
-            int budget = i * ist.get_nbr_machine() * ist.get_nbr_job();
+            int budget = 10000;
             fichier << ist.get_nom();
             fichier << ",";
             fichier << budget;
             fichier << ",";
             cout << ist.get_nom() << " : " << i << endl;
             //int res_desc = Calc_feature::Hill_climbing_with_budget(ist, "FIFO-critique", "swap", budget, false).get_temps_total();
-            int res_desc = Calc_feature::Hill_climbing_with_budget_and_restart(ist, "prio", "swap_jump_nrd", budget, false).get_temps_total();
+            int res_desc = Calc_feature::Hill_climbing_with_budget_and_restart(ist, /*"nd"*/ "prio", /*"swap_jump_nrd"*/ "swap", budget, false, false, 10).get_temps_total();
+         cout << "done";
+            int res_desc_2 = Calc_feature::Hill_climbing_with_budget_and_restart(ist, /*"nd"*/ "prio", /*"swap_jump_nrd"*/ "swap", budget, false, true, 10).get_temps_total();
+            cout << "done";
             fichier << res_desc;
+            fichier << ",";
+            fichier << res_desc_2;
             fichier << ",";
             int res_rand = 100000000;
             Fitness fit;

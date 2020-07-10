@@ -178,7 +178,7 @@ Solution Calc_feature::Hill_climbing(Instance inst, string fitness, string voisi
     return s[0];
 }
 
-Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, string fitness, string voisinage, int budget, bool critic)
+Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, string fitness, string voisinage, int budget, bool critic, bool frein, int budget_frein)
 {
     //Initialisation de la liste des voisins et autres variables de la recherche local
     vector<int> parcours = {};
@@ -187,17 +187,22 @@ Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, stri
     Fitness fit;
     vector<Solution> s = fit.calcul_fitness(inst, fitness);
     vector<Solution> s_fin = s;
+    int run = 0;
     while (budget > 0)
     {
+        run++;
         inst.initialisation_permutation();
         bool termine = false;
-        vector<Solution> s = fit.calcul_fitness(inst, fitness);
+        if (run != 1)
+            s = fit.calcul_fitness(inst, fitness);
         vector<Solution> s2 = s;
         parcours.push_back(s[0].get_temps_total());
         if (!critic)
         {
             while (!termine)
             {
+                int voisin_parcouru = 0;
+                int cc = 0;
                 if (voisinage.find("jump") != std::string::npos)
                     inst.recreer_instance_depuis_solution(s[0]);
                 //Randomisation de la liste des voisins.
@@ -207,12 +212,13 @@ Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, stri
                 bool meilleur_voisin_trouve = false;
                 vector<pair<int, int>> save = inst.get_permutation();
                 //Parcours des voisins
-                while (!meilleur_voisin_trouve && !voi.Voisinage_parcouru())
+                while (!meilleur_voisin_trouve && !voi.Voisinage_parcouru() && budget > 0 && (!frein || voisin_parcouru < budget_frein))
                 {
-
+                    voisin_parcouru ++;
                     inst.set_permutation(voi.Creer_voisin(inst.get_permutation()));
                     s2 = fit.calcul_fitness(inst, fitness);
                     budget--;
+                    cc++;
                     if (fit.comparaison_fitness(s, s2) == "greater")
                     {
                         //cout << s.get_temps_total() << "->" << s2.get_temps_total() << endl;
@@ -225,7 +231,7 @@ Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, stri
                         inst.set_permutation(save);
                     }
                 }
-                if (!meilleur_voisin_trouve || budget <= 0)
+                if (!meilleur_voisin_trouve || budget <= 0 || (frein && voisin_parcouru >= budget_frein))
                 {
                     termine = true;
                 }
@@ -271,6 +277,8 @@ Solution Calc_feature::Hill_climbing_with_budget_and_restart(Instance inst, stri
         {
             s_fin = s;
         }
+        //cout << "->" << s[0].get_temps_total() << ", val_min = " << s_fin[0].get_temps_total() << endl;
+        //cout<< "->" << s[0].get_temps_total() << endl;
     }
     s_fin[0].set_run(parcours);
     return s_fin[0];
